@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+	
+	<nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom: 25px;">
+		<a class="navbar-brand" href="#">Centennial Banking</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+			aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+			<div class="navbar-nav">
+				
+                <div th:if="${#strings.equals(customer.username, 'Admin')}">
+                    <a class="nav-item nav-link" href="/admin">Customer Count by Account Type</a>
+                </div>
+                
+                <div th:if="${#strings.equals(customer.username, 'Admin')}">
+                    <a class="nav-item nav-link" href="/admin-overdraft">Overdraft Customers</a>
+                </div>
+                
+                <div th:if="${#strings.equals(customer.username, 'Admin')}">
+                    <a class="nav-item nav-link" href="/admin-high-savings">High Balance Savings Customers</a>
+                </div>
+                
+				<a class="nav-item nav-link active" href="/view-profile">Profile <span class="sr-only">(current)</span></a>
+				<a class="nav-item nav-link" href="/view-accounts">Accounts</a>
+				<form action="/logout" method="post">
+					<button type="submit" class="btn btn-link nav-link">Logout</button>
+				</form>
+			</div>
+		</div>
+	</nav>
+	
+	<div class="container">
+		<h1 style="color: white;">Account</h1>
+		<form th:action="@{/edit-account/accountNo/{accountNo}(accountNo=${account.accountNo})}" method="post">
+
+			<div class="form-group">
+				<label for="balance">Account Balance</label>
+				<input type="text" class="form-control" id="balance" name="balance" th:value="${account.balance}">
+			</div>
+			<div th:if="${accounttype == 1}" class="overdraft-box">
+				<label for="overDraftLimit">Account Overdraft Limit</label>
+				<input type="text" class="form-control" id="overDraftLimit" name="overDraftLimit" th:value="${account.overDraftLimit}">
+			</div>
+			<div th:if="${accountTypeCode != 1}" class="overdraft-box">
+				<input hidden type="text" id="overDraftLimit" name="overDraftLimit" th:value="0">
+			</div>
+			<div style="margin-top: 25px;">
+				<button type="submit" class="btn btn-primary">Update</button>
+				<button class="btn btn-secondary" type="cancel">Cancel</button>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

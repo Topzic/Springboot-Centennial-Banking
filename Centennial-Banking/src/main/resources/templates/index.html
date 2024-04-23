@@ -1,0 +1,76 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+
+<body>
+    <!-- Login form starts -->
+    <section class="container-fluid" style="margin-top: 15%;">
+        <!-- row justify-content-center is used for centering the login form -->
+        <section class="row justify-content-center">
+            <!-- Making the form responsive -->
+            <section class="col-12 col-sm-6 col-md-4">
+                <form class="form-container" id="loginForm" th:action="@{/login}" th:method="post">
+                    <!-- Binding the label and input together -->
+
+                    <div th:if="${message}" class="alert alert-danger">
+                        <p th:text="${message}"></p>
+                    </div>
+
+                    <div class="form-group">
+                        <h4 class="text-center font-weight-bold"> Login </h4>
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="username" name="username"
+                            placeholder="Enter username" required>
+                    </div>
+
+                    <!-- Binding the label and input together -->
+                    <div class="form-group">
+                        <label for="InputPassword">Password</label>
+                        <input type="password" class="form-control" id="password" name="password"
+                            placeholder="Password" required>
+                    </div>
+
+                    <button type="button" class="btn btn-primary btn-block" onclick="submitForm()">Sign in</button>
+                    <div class="form-footer">
+                        <p> Not a Member Yet? <a href="/new-customer">Sign Up</a></p>
+                    </div>
+                </form>
+            </section>
+        </section>
+    </section>
+<script>
+    function submitForm() {
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+
+        var url = "/login/username/" + username + "/password/" + password;
+        var options = {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+
+        fetch(url, options)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(data => {
+                window.location.href = "/view-profile";
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+                alert("An error occurred. Please try again.");
+            });
+    }
+</script>
+</body>
+</html>

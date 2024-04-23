@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Open Account</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .overdraft-box {
+            display: none;
+        }
+    </style>
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            const accountTypeSelect = document.getElementById('accountTypeCode');
+            const overdraftBox = document.querySelector('.overdraft-box');
+            accountTypeSelect.addEventListener('change', function () {
+                if (accountTypeSelect.value === '1') {
+                    overdraftBox.style.display = 'block';
+                } else {
+                    overdraftBox.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+	
+	<nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom: 25px;">
+		<a class="navbar-brand" href="#">Centennial Banking</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+			aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+			<div class="navbar-nav">
+				
+                <div th:if="${#strings.equals(customer.username, 'Admin')}">
+                    <a class="nav-item nav-link" href="/admin">Customer Count by Account Type</a>
+                </div>
+                
+                <div th:if="${#strings.equals(customer.username, 'Admin')}">
+                    <a class="nav-item nav-link" href="/admin-overdraft">Overdraft Customers</a>
+                </div>
+                
+                <div th:if="${#strings.equals(customer.username, 'Admin')}">
+                    <a class="nav-item nav-link" href="/admin-high-savings">High Balance Savings Customers</a>
+                </div>
+                
+				<a class="nav-item nav-link active" href="/view-profile">Profile <span class="sr-only">(current)</span></a>
+				<a class="nav-item nav-link" href="/view-accounts">Accounts</a>
+				<form action="/logout" method="post">
+					<button type="submit" class="btn btn-link nav-link">Logout</button>
+				</form>
+			</div>
+		</div>
+	</nav>
+	
+    <section class="container-fluid">
+        <section class="row justify-content-center">
+            <section class="col-12 col-sm-6 col-md-4">
+
+                <h2 class="text-center mt-4">Add a Fintech Account</h2>
+                <form class="form-container" th:action="@{/new-account}" th:object="${account}" method="post">
+
+                    <!-- Account Type -->
+                    <div class="form-group">
+                        <select class="form-control" name="accountTypeCode" id="accountTypeCode">
+                            <option value="0" selected disabled>Account Type</option>
+                            <option value="1">Chequing</option>
+                            <option value="2">Savings</option>
+                            <option value="3">Deposit</option>
+                            <option value="4">RESP</option>
+                        </select>
+                    </div>
+
+                    <!-- OverDraft Request -->
+                    <div class="overdraft-box">
+                        <h3>OverDraft Request</h3>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="0.0" name="overDraftLimit" th:value="0.0" checked="checked">
+                            <label class="form-check-label" for="no">No</label>
+                        </div> 
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="500.0" name="overDraftLimit" th:value="500.0">
+                            <label class="form-check-label" for="yes">Yes</label>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                        <button class="btn btn-secondary" type="cancel">Cancel</button>
+                    </div>
+
+                </form>
+
+                <div id="popup" style="display: none;">
+                    <div id="data">
+                        <span class="close">&times;</span><br>
+                        <p></p>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </section>
+</body>
+
+</html>

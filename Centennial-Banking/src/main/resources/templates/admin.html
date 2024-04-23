@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+
+<body>
+	
+	<nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom: 25px;">
+		<a class="navbar-brand" href="#">Centennial Banking</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+			aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+			<div class="navbar-nav">
+				
+                <div th:if="${#strings.equals(customer.username, 'Admin')}">
+                    <a class="nav-item nav-link" href="/admin">Customer Count by Account Type</a>
+                </div>
+                
+                <div th:if="${#strings.equals(customer.username, 'Admin')}">
+                    <a class="nav-item nav-link" href="/admin-overdraft">Overdraft Customers</a>
+                </div>
+                
+                <div th:if="${#strings.equals(customer.username, 'Admin')}">
+                    <a class="nav-item nav-link" href="/admin-high-savings">High Balance Savings Customers</a>
+                </div>
+                
+				<a class="nav-item nav-link active" href="/view-profile">Profile <span class="sr-only">(current)</span></a>
+				<a class="nav-item nav-link" href="/view-accounts">Accounts</a>
+				<form action="/logout" method="post">
+					<button type="submit" class="btn btn-link nav-link">Logout</button>
+				</form>
+			</div>
+		</div>
+	</nav>
+	
+	<div class="container">
+
+        <h2>Administrative Figures</h2>
+        
+        <div class="container">
+			<h4>Customer Count By Account Type</h4>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Savings</th>
+						<th>Chequings</th>
+						<th>Deposit</th>
+						<th>RESP</th>
+					</tr>
+				</thead>
+				<tbody>
+						<td th:text="${accounts1}"></td>
+						<td th:text="${accounts2}"></td>
+						<td th:text="${accounts3}"></td>
+						<td th:text="${accounts4}"></td>
+					</tr>
+				</tbody>
+			</table>
+   		</div>
+    </div>
+</body>
+</html>
